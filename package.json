@@ -16,6 +16,8 @@
       "typescript": "3.5.3"
    },
    "dependencies": {
+      "ts-node": "8.3.0",
+      "typescript": "3.5.3",
       "bcryptjs": "~2.4.3",
       "chalk": "~2.4.2",
       "graphql": "~14.4.2",

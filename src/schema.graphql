@@ -36,6 +36,7 @@ type Player {
   team: Team
   position: String
   rank: Int
+  adp: Float
   tier: String
 }
 
@@ -104,6 +105,7 @@ type Mutation {
     team: String!
     position: String!
     rank: Int!
+    adp: Float!
     tier: String!
   ): Boolean!
   addProjection(

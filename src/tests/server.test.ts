@@ -51,6 +51,7 @@ test('Create Player', async () => {
     expect(playerTest.team).toEqual(newTeam.id.toString());
     expect(playerTest.position).toEqual(playerData.position);
     expect(playerTest.rank).toEqual(playerData.rank);
+    expect(playerTest.adp).toEqual(playerData.adp);
     expect(playerTest.tier).toEqual(playerData.tier);
 });
 

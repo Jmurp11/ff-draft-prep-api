@@ -31,6 +31,9 @@ export class Player extends BaseEntity {
     @Column("int")
     rank!: number;
 
+    @Column("float")
+    adp!: number;
+
     @Column("text")
     tier!: string;
 }

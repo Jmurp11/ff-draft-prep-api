@@ -87,6 +87,7 @@ declare namespace GQL {
     team: ITeam | null;
     position: string | null;
     rank: number | null;
+    adp: number | null;
     tier: string | null;
   }
 
@@ -153,6 +154,7 @@ declare namespace GQL {
     team: string;
     position: string;
     rank: number;
+    adp: number;
     tier: string;
   }
 

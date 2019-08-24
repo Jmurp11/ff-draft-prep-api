@@ -9,7 +9,7 @@
       "database": "d4qv5k6676vcj8",
       "synchronize": true,
       "logging": false,
-      "dropSchema": false,
+      "dropSchema": true,
       "entities": [
          "src/entity/**/*.ts"
       ],

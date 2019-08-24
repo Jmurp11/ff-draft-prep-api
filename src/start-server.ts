@@ -7,7 +7,13 @@ import { resolvers } from './resolver';
 export const startServer = async () => {
     const typeDefs = importSchema('./src/schema.graphql');
     const server = new GraphQLServer({ typeDefs, resolvers })
-    const port = process.env.NODE_ENV === 'test' ? 0 : 4000
+    let port: number = 0;
+
+    if(process.env.NODE_ENV === 'test') {
+        port = 4000;
+    } else if(process.env.NODE_ENV === 'production') {
+        port = parseInt(process.env.PORT as string, 10) || 4000;
+    }
     await createTypeormConn();
 
     const app = await server.start({

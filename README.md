@@ -1,7 +1,10 @@
-# Awesome Project Build with TypeORM
+# Fantasy Football Draft Prep API
 
-Steps to run this project:
+### What It Is
+GraphQL-Typescript server that creates a postgres database using TypeORM.  Stores, receives, and serves fantasy football rankings and projections.
 
-1. Run `npm i` command
-2. Setup database settings inside `ormconfig.json` file
-3. Run `npm start` command
+### How To Use It
+Pull the project down and install the dependencies.  Run npm start to run production and npm run dev to run development.
+
+### How To Test
+Run npm test

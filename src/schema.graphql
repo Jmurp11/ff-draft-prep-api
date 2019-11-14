@@ -99,6 +99,7 @@ type Mutation {
     offensiveLineRank: Float!
     runningBackSoS: Int!
   ): Boolean!
+
   createPlayer(
     firstName: String!
     lastName: String!
@@ -108,6 +109,7 @@ type Mutation {
     adp: Float!
     tier: String!
   ): Boolean!
+  
   addProjection(
     firstName: String!
     lastName: String!

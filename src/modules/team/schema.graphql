@@ -29,44 +29,10 @@ type Team {
   runningBackSoS: Int
 }
 
-type Player {
-  id: Int
-  firstName: String
-  lastName: String
-  team: Team
-  position: String
-  rank: Int
-  adp: Float
-  tier: String
-}
-
-type Projection {
-  id: Int
-  player: Player
-  platform: String
-  completions: Float
-  attempts: Float
-  passYards: Float
-  passTd: Float
-  interception: Float
-  carries: Float
-  rushYards: Float
-  rushTd: Float
-  fumbles: Float
-  receptions: Float
-  receivingYards: Float
-  receivingTd: Float
-  fantasyPoints: Float
-}
-
 type Query {
   teamById(id: Int): Team
   teamByAbbreviation(abbreviation: String): Team
   teams: [Team]
-  playerById(id: Int): [Player]
-  players: [Player]
-  projections: [Projection]
-  projectionsByPlayer(player: Int): [Projection]
 }
 
 type Mutation {
@@ -99,33 +65,4 @@ type Mutation {
     offensiveLineRank: Float!
     runningBackSoS: Int!
   ): Boolean!
-
-  createPlayer(
-    firstName: String!
-    lastName: String!
-    team: String!
-    position: String!
-    rank: Int!
-    adp: Float!
-    tier: String!
-  ): Boolean!
-  
-  addProjection(
-    firstName: String!
-    lastName: String!
-    team: String!
-    completions: Float!
-    attempts: Float!
-    passYards: Float!
-    passTd: Float!
-    interception: Float!
-    carries: Float!
-    rushYards: Float!
-    rushTd: Float!
-    fumbles: Float!
-    receptions: Float!
-    receivingYards: Float!
-    receivingTd: Float!
-    fantasyPoints: Float!
-  ): Boolean
 }

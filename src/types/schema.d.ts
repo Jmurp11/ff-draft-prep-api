@@ -22,13 +22,21 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: 'Query';
-    teamById: ITeam | null;
-    teamByAbbreviation: ITeam | null;
-    teams: Array<ITeam | null> | null;
     playerById: Array<IPlayer | null> | null;
     players: Array<IPlayer | null> | null;
     projections: Array<IProjection | null> | null;
     projectionsByPlayer: Array<IProjection | null> | null;
+    teamById: ITeam | null;
+    teamByAbbreviation: ITeam | null;
+    teams: Array<ITeam | null> | null;
+  }
+
+  interface IPlayerByIdOnQueryArguments {
+    id?: number | null;
+  }
+
+  interface IProjectionsByPlayerOnQueryArguments {
+    player?: number | null;
   }
 
   interface ITeamByIdOnQueryArguments {
@@ -39,12 +47,16 @@ declare namespace GQL {
     abbreviation?: string | null;
   }
 
-  interface IPlayerByIdOnQueryArguments {
-    id?: number | null;
-  }
-
-  interface IProjectionsByPlayerOnQueryArguments {
-    player?: number | null;
+  interface IPlayer {
+    __typename: 'Player';
+    id: number | null;
+    firstName: string | null;
+    lastName: string | null;
+    team: ITeam | null;
+    position: string | null;
+    rank: number | null;
+    adp: number | null;
+    tier: string | null;
   }
 
   interface ITeam {
@@ -79,18 +91,6 @@ declare namespace GQL {
     runningBackSoS: number | null;
   }
 
-  interface IPlayer {
-    __typename: 'Player';
-    id: number | null;
-    firstName: string | null;
-    lastName: string | null;
-    team: ITeam | null;
-    position: string | null;
-    rank: number | null;
-    adp: number | null;
-    tier: string | null;
-  }
-
   interface IProjection {
     __typename: 'Projection';
     id: number | null;
@@ -113,9 +113,38 @@ declare namespace GQL {
 
   interface IMutation {
     __typename: 'Mutation';
-    createTeam: boolean;
     createPlayer: boolean;
     addProjection: boolean | null;
+    createTeam: boolean;
+  }
+
+  interface ICreatePlayerOnMutationArguments {
+    firstName: string;
+    lastName: string;
+    team: string;
+    position: string;
+    rank: number;
+    adp: number;
+    tier: string;
+  }
+
+  interface IAddProjectionOnMutationArguments {
+    firstName: string;
+    lastName: string;
+    team: string;
+    completions: number;
+    attempts: number;
+    passYards: number;
+    passTd: number;
+    interception: number;
+    carries: number;
+    rushYards: number;
+    rushTd: number;
+    fumbles: number;
+    receptions: number;
+    receivingYards: number;
+    receivingTd: number;
+    fantasyPoints: number;
   }
 
   interface ICreateTeamOnMutationArguments {
@@ -146,35 +175,6 @@ declare namespace GQL {
     turnoverPercentage: number;
     offensiveLineRank: number;
     runningBackSoS: number;
-  }
-
-  interface ICreatePlayerOnMutationArguments {
-    firstName: string;
-    lastName: string;
-    team: string;
-    position: string;
-    rank: number;
-    adp: number;
-    tier: string;
-  }
-
-  interface IAddProjectionOnMutationArguments {
-    firstName: string;
-    lastName: string;
-    team: string;
-    completions: number;
-    attempts: number;
-    passYards: number;
-    passTd: number;
-    interception: number;
-    carries: number;
-    rushYards: number;
-    rushTd: number;
-    fumbles: number;
-    receptions: number;
-    receivingYards: number;
-    receivingTd: number;
-    fantasyPoints: number;
   }
 }
 

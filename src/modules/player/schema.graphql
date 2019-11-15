@@ -1,3 +1,5 @@
+# import Error from "../error/schema.graphql"
+
 type Player {
   id: Int
   firstName: String
@@ -24,5 +26,5 @@ type Mutation {
     rank: Int!
     adp: Float!
     tier: String!
-  ): Boolean!
+  ): [Error!]
 }

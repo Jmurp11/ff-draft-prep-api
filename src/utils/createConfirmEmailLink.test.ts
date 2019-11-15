@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { createConfirmEmailLink } from './createConfirmEmailLink';
 import { createTypeormConn } from './createTypeOrmConn';
 import { User } from '../entity/index';
-import { user as userData, shared } from '../constants/test-constants';
+import { user as userData } from '../constants/test-constants';
 import { Connection } from 'typeorm';
 
 let userId = "";
@@ -16,9 +16,7 @@ beforeEach(async () => {
     const user = await User.create({
         email: userData.email,
         password: userData.password,
-        description: userData.description,
-        latitude: shared.longitude,
-        longitude: shared.longitude
+        username: userData.username
     }).save()
     userId = user.id;
 });

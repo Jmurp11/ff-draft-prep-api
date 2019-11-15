@@ -1,83 +1,27 @@
 export const host = 'http://localhost:4000';
 
-export const teamData = {
-    city: 'New York',
-    nickname: 'Jets',
-    abbreviation: 'NYJ',
-    imageUrl: 'http://content.sportslogos.net/logos/7/169/thumbs/364.gif',
-    rank: 1,
-    passRank: 1,
-    rushRank: 1,
-    pointsFor: 0,
-    yards: 0,
-    plays: 0,
-    yardsPerPlay: 0.0,
-    turnovers: 0,
-    passAttempts: 0,
-    passCompletions: 0,
-    passYards: 0,
-    passTd: 0,
-    interception: 0,
-    netYardsPerPass: 0.0,
-    rushAttempt: 0,
-    rushYards: 0,
-    rushTd: 0,
-    yardsPerRush: 0,
-    scorePercentage: 0.0,
-    turnoverPercentage: 0.0,
-    offensiveLineRank: 1,
-    runningBackSoS: 1
-};
-
-export const playerData = {
-    firstName: 'Leveon',
-    lastName: 'Bell',
-    team: 'NYJ',
-    position: 'RB',
-    rank: 7,
-    tier: "Tier 2",
-    adp: 2.0,
-    bye: 11
-};
-
-export const projectionData = {
-    completions: 0,
-    attempts: 0,
-    passYards: 0,
-    passTd: 0,
-    interception: 0,
-    carries: 0,
-    rushYards: 0,
-    rushTd: 0,
-    fumbles: 0,
-    receptions: 0,
-    receivingYards: 0,
-    receivingTd: 0,
-    fantasyPoints: 0
-}
-
 export const createTeam = `
     mutation {
-        createTeam(city: "${teamData.city}", nickname: "${teamData.nickname}", 
-            abbreviation: "${teamData.abbreviation}", bye: ${playerData.bye}, rank: ${teamData.rank}, 
-            passRank: ${teamData.passRank}, rushRank: ${teamData.rushRank}, imageUrl: "${teamData.imageUrl}", pointsFor: ${teamData.pointsFor},
-            yards: ${teamData.yards}, plays: ${teamData.plays}, yardsPerPlay: ${teamData.yardsPerPlay},
-            turnovers: ${teamData.turnovers}, passAttempts: ${teamData.passAttempts},
-            passCompletions: ${teamData.passCompletions}, passYards: ${teamData.passYards},
-            passTd: ${teamData.passTd}, interception: ${teamData.interception},
-            netYardsPerPass: ${teamData.netYardsPerPass}, rushAttempt: ${teamData.rushAttempt},
-            rushYards: ${teamData.rushYards}, rushTd: ${teamData.rushTd}, yardsPerRush: ${teamData.yardsPerRush},
-            scorePercentage: ${teamData.scorePercentage}, turnoverPercentage: ${teamData.turnoverPercentage},
-            offensiveLineRank: ${teamData.offensiveLineRank}, runningBackSoS: ${teamData.runningBackSoS})
+        createTeam(city: "${city}", nickname: "${nickname}", 
+            abbreviation: "${abbreviation}", bye: ${playerData.bye}, rank: ${rank}, 
+            passRank: ${passRank}, rushRank: ${rushRank}, imageUrl: "${imageUrl}", pointsFor: ${pointsFor},
+            yards: ${yards}, plays: ${plays}, yardsPerPlay: ${yardsPerPlay},
+            turnovers: ${turnovers}, passAttempts: ${passAttempts},
+            passCompletions: ${passCompletions}, passYards: ${passYards},
+            passTd: ${passTd}, interception: ${interception},
+            netYardsPerPass: ${netYardsPerPass}, rushAttempt: ${rushAttempt},
+            rushYards: ${rushYards}, rushTd: ${rushTd}, yardsPerRush: ${yardsPerRush},
+            scorePercentage: ${scorePercentage}, turnoverPercentage: ${turnoverPercentage},
+            offensiveLineRank: ${offensiveLineRank}, runningBackSoS: ${runningBackSoS})
     }
 `;
 
 export const createPlayer = (team: string) => {
     const mutation = `
         mutation {
-            createPlayer(firstName: "${playerData.firstName}", lastName: "${playerData.lastName}", 
-                team: "${team}", position: "${playerData.position}", rank: ${playerData.rank},
-                adp: ${playerData.adp}, tier: "${playerData.tier}")
+            createPlayer(firstName: "${firstName}", lastName: "${lastName}", 
+                team: "${team}", position: "${position}", rank: ${rank},
+                adp: ${adp}, tier: "${tier}")
         }
     `;
     return mutation;
@@ -86,11 +30,11 @@ export const createPlayer = (team: string) => {
 export const addProjection = (firstName: string, lastName: string, team: string): string => {
     const mutation = `
             mutation {
-                addProjection(firstName: "${firstName}", lastName: "${lastName}", team: "${team}", completions: ${projectionData.completions}, attempts: ${projectionData.attempts}, 
-                    passYards: ${projectionData.passYards}, passTd: ${projectionData.passTd}, 
-                    interception: ${projectionData.interception}, carries: ${projectionData.carries}, rushYards: ${projectionData.rushYards}, rushTd: ${projectionData.rushTd}, 
-                    fumbles: ${projectionData.fumbles}, receptions: ${projectionData.receptions}, receivingYards: ${projectionData.receivingYards}, 
-                    receivingTd: ${projectionData.receivingTd}, fantasyPoints: ${projectionData.fantasyPoints})
+                addProjection(firstName: "${firstName}", lastName: "${lastName}", team: "${team}", completions: ${completions}, attempts: ${attempts}, 
+                    passYards: ${passYards}, passTd: ${passTd}, 
+                    interception: ${interception}, carries: ${carries}, rushYards: ${rushYards}, rushTd: ${rushTd}, 
+                    fumbles: ${fumbles}, receptions: ${receptions}, receivingYards: ${receivingYards}, 
+                    receivingTd: ${receivingTd}, fantasyPoints: ${fantasyPoints})
             }
         `
     return mutation;

@@ -1,3 +1,5 @@
+# import Error from "../error/schema.graphql"
+
 type Team {
   id: Int
   city: String
@@ -64,5 +66,5 @@ type Mutation {
     turnoverPercentage: Float!
     offensiveLineRank: Float!
     runningBackSoS: Int!
-  ): Boolean!
+  ): [Error!]
 }

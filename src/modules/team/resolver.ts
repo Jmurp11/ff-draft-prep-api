@@ -2,6 +2,7 @@ import { ResolverMap } from "./../../types/graphql-utils";
 import {
     Team
 } from './../../entity';
+import { teamAlreadyExists } from "./errorMessages";
 
 export const resolvers: ResolverMap = {
     Query: {
@@ -51,6 +52,19 @@ export const resolvers: ResolverMap = {
             offensiveLineRank,
             runningBackSoS
         }: GQL.ICreateTeamOnMutationArguments) => {
+            const teamExists = await Team.findOne({
+                where: { nickname },
+                select: ["id"]
+            });
+
+            if (teamExists) {
+                return [
+                    {
+                        path: "team",
+                        message: teamAlreadyExists
+                    }
+                ];
+            }
             const team = Team.create({
                 city,
                 nickname,
@@ -83,7 +97,7 @@ export const resolvers: ResolverMap = {
 
             await team.save();
 
-            return true;
+            return null;
         },
     }
 };

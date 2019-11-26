@@ -4,6 +4,7 @@ import {
     Team
 } from './../../entity';
 import { getRepository } from "typeorm";
+import { playerAlreadyExists } from "./errorMessages";
 
 export const resolvers: ResolverMap = {
     Query: {
@@ -36,6 +37,19 @@ export const resolvers: ResolverMap = {
         createPlayer: async (_: any, { firstName, lastName, team, position,
             rank, adp, tier }:
             GQL.ICreatePlayerOnMutationArguments) => {
+            const playerExists = await Player.findOne({
+                where: { firstName, lastName, team, position },
+                select: ["id"]
+            });
+
+            if (playerExists) {
+                return [
+                    {
+                        path: "team",
+                        message: playerAlreadyExists
+                    }
+                ];
+            }
             const teamQueryResult = await Team.find({ where: { abbreviation: team } });
 
             const player = Player.create({

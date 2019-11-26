@@ -1,5 +1,6 @@
 # import Team from "../team/schema.graphql"
 # import Player from " ../team/schema.graphql"
+# import Error from "../error/schema.graphql"
 
 type Projection {
   id: Int
@@ -43,5 +44,5 @@ type Mutation {
     receivingYards: Float!
     receivingTd: Float!
     fantasyPoints: Float!
-  ): Boolean
+  ): [Error!]
 }

@@ -22,6 +22,8 @@ declare namespace GQL {
 
   interface IQuery {
     __typename: 'Query';
+    hello: string;
+    me: IUser | null;
     playerById: Array<IPlayer | null> | null;
     players: Array<IPlayer | null> | null;
     projections: Array<IProjection | null> | null;
@@ -29,6 +31,12 @@ declare namespace GQL {
     teamById: ITeam | null;
     teamByAbbreviation: ITeam | null;
     teams: Array<ITeam | null> | null;
+    users: Array<IUser | null> | null;
+    user: IUser | null;
+  }
+
+  interface IHelloOnQueryArguments {
+    name?: string | null;
   }
 
   interface IPlayerByIdOnQueryArguments {
@@ -45,6 +53,20 @@ declare namespace GQL {
 
   interface ITeamByAbbreviationOnQueryArguments {
     abbreviation?: string | null;
+  }
+
+  interface IUserOnQueryArguments {
+    id?: string | null;
+  }
+
+  interface IUser {
+    __typename: 'User';
+    id: string;
+    email: string;
+    password: string | null;
+    username: string | null;
+    confirmed: boolean | null;
+    forgotPasswordLock: boolean | null;
   }
 
   interface IPlayer {
@@ -115,7 +137,13 @@ declare namespace GQL {
     __typename: 'Mutation';
     createPlayer: boolean;
     addProjection: boolean | null;
-    createTeam: boolean;
+    createTeam: Array<IError> | null;
+    register: Array<IError> | null;
+    login: Array<IError> | null;
+    logout: boolean | null;
+    sendForgotPasswordEmail: Array<IError> | null;
+    forgotPasswordChange: Array<IError> | null;
+    editUserEmail: Array<IError> | null;
   }
 
   interface ICreatePlayerOnMutationArguments {
@@ -175,6 +203,37 @@ declare namespace GQL {
     turnoverPercentage: number;
     offensiveLineRank: number;
     runningBackSoS: number;
+  }
+
+  interface IRegisterOnMutationArguments {
+    email: string;
+    password: string;
+    username: string;
+  }
+
+  interface ILoginOnMutationArguments {
+    email: string;
+    password: string;
+  }
+
+  interface ISendForgotPasswordEmailOnMutationArguments {
+    email: string;
+  }
+
+  interface IForgotPasswordChangeOnMutationArguments {
+    newPassword: string;
+    key: string;
+  }
+
+  interface IEditUserEmailOnMutationArguments {
+    userId: string;
+    email: string;
+  }
+
+  interface IError {
+    __typename: 'Error';
+    path: string;
+    message: string;
   }
 }
 

@@ -1,7 +1,6 @@
 import { User } from '../../entity/index';
 import {
     user as userData,
-    shared
 } from '../../constants/test-constants';
 import {
     duplicateEmail,
@@ -30,7 +29,7 @@ describe("Register user", () => {
         const client = await new TestClient(process.env.TEST_HOST as string);
         const email = `${Math.floor((Math.random() * 10000) + 1).toString()}${userData.email}`;
         // make sure we can register a user
-        const response = await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
+        const response = await client.register(email, userData.password, userData.username);
 
         expect(response.data).toEqual({ register: null });
         const users = await User.find({ where: { email } });
@@ -39,7 +38,7 @@ describe("Register user", () => {
         expect(user.email).toEqual(email);
         expect(user.password).not.toEqual(userData.password);
 
-        const response2: any = await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
+        const response2: any = await client.register(email, userData.password, userData.username);
 
         expect(response2.data.register).toHaveLength(1);
         expect(response2.data.register[0]).toEqual({
@@ -51,7 +50,7 @@ describe("Register user", () => {
     it("check bad email", async () => {
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        const response3: any = await client.register("b", userData.password, userData.description, shared.latitude, shared.longitude);
+        const response3: any = await client.register("b", userData.password, userData.username);
         expect(response3.data).toEqual({
             register: [
                 {
@@ -70,7 +69,7 @@ describe("Register user", () => {
         // catch bad password
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        const response4: any = await client.register(userData.email, 'abcd', userData.description, shared.latitude, shared.longitude);
+        const response4: any = await client.register(userData.email, 'abcd', userData.username);
         expect(response4.data).toEqual({
             register: [
                 {
@@ -84,7 +83,7 @@ describe("Register user", () => {
     it("check bad password and bad email", async () => {
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        const response5: any = await client.register('df', 'abcd', userData.description, shared.latitude, shared.longitude);
+        const response5: any = await client.register('df', 'abcd', userData.username);
 
         expect(response5.data).toEqual({
             register: [
@@ -107,24 +106,22 @@ describe("Register user", () => {
     it("register user", async () => {
         const email = `${Math.floor((Math.random() * 10000) + 1).toString()}${userData.email}`;
         const password = userData.password;
-        const description = userData.description;
+
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        const response = await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
+        const response = await client.register(email, userData.password, userData.username);
 
         expect(response.data).toEqual({ register: null });
 
         const users = await User.find({ where: { email } });
 
-        
+
         expect(users).toHaveLength(1);
 
         const userTest = users[0];
 
         expect(userTest.email).toEqual(email);
         expect(userTest.password).not.toEqual(password)
-        expect(userTest.description).toEqual(description);
-
     })
 });
 
@@ -148,7 +145,7 @@ describe('Login User', () => {
         const email = userData.email;
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
+        await client.register(email, userData.password, userData.username);
 
         const response = await client.login(email, userData.password);
 
@@ -168,9 +165,7 @@ describe('Login User', () => {
         await User.create({
             email,
             password: userData.password,
-            description: userData.description,
-            latitude: shared.longitude,
-            longitude: shared.longitude,
+            username: userData.username,
             confirmed: true
         }).save();
 
@@ -191,82 +186,12 @@ describe('Login User', () => {
         const email = userData.email;
         const client = await new TestClient(process.env.TEST_HOST as string);
 
-        await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
+        await client.register(email, userData.password, userData.username);
 
         await User.update({ email }, { confirmed: true });
 
         const response = await client.login(email, userData.password);
 
         expect(response.data).toEqual({ login: null });
-    });
-
-    it('test update email', async () => {
-        const email = `${Math.floor((Math.random() * 10000) + 1).toString()}${userData.email}`;
-        const newEmail = 'newEmail@test.com';
-        const password = userData.password;
-        const description = userData.description;
-        const client = await new TestClient(process.env.TEST_HOST as string);
-
-        const response = await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
-
-        expect(response.data).toEqual({ register: null });
-
-        const users = await User.find({ where: { email } });
-
-        
-        expect(users).toHaveLength(1);
-
-        const userTest = users[0];
-
-        expect(userTest.email).toEqual(email);
-        expect(userTest.password).not.toEqual(password)
-        expect(userTest.description).toEqual(description);
-
-        const response2 = await client.editUserEmail(userTest.id, newEmail);
-
-        expect(response2.data).toEqual({ editUserEmail: null });
-
-        const updatedUsers = await User.find({ where: { newEmail } });
-
-        const updateTest = updatedUsers[0];
-
-        expect(updateTest.email).toEqual(newEmail);
-        expect(updateTest.password).not.toEqual(password)
-        expect(updateTest.description).toEqual(description);
-    });
-
-    it('test update description', async () => {
-        const email = `${Math.floor((Math.random() * 10000) + 1).toString()}${userData.email}`;
-        const newDescription = 'This is my new description';
-        const password = userData.password;
-        const description = userData.description;
-        const client = await new TestClient(process.env.TEST_HOST as string);
-
-        const response = await client.register(email, userData.password, userData.description, shared.latitude, shared.longitude);
-
-        expect(response.data).toEqual({ register: null });
-
-        const users = await User.find({ where: { email } });
-
-        
-        expect(users).toHaveLength(1);
-
-        const userTest = users[0];
-
-        expect(userTest.email).toEqual(email);
-        expect(userTest.password).not.toEqual(password)
-        expect(userTest.description).toEqual(description);
-
-        const response2 = await client.editUserDescription(userTest.id, newDescription);
-
-        expect(response2.data).toEqual({ editUserDescription: null });
-
-        const updatedUsers = await User.find({ where: { email } });
-
-        const updateTest = updatedUsers[0];
-
-        expect(updateTest.email).toEqual(email);
-        expect(updateTest.password).not.toEqual(password)
-        expect(updateTest.description).toEqual(newDescription);
     });
 });

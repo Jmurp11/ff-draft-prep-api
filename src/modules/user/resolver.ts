@@ -4,15 +4,16 @@ import { ResolverMap } from "../../types/graphql-utils";
 import { User } from '../../entity/index';
 import { formatYupError } from '../../utils/formatYupError';
 import {
-   duplicateEmail,
-   emailNotLongEnough,
-   invalidEmail,
-   passwordNotLongEnough,
-   invalidLogin,
+    duplicateEmail,
+    emailNotLongEnough,
+    invalidEmail,
+    passwordNotLongEnough,
+    invalidLogin,
     confirmEmailError,
     forgotPasswordLockError,
     userDoesNotExist,
-    expiredRedisKeyError
+    expiredRedisKeyError,
+    usernameAlreadyExists
 } from './errorMessages';
 
 import { createConfirmEmailLink } from '../../utils/createConfirmEmailLink';
@@ -66,7 +67,7 @@ export const resolvers: ResolverMap = {
         }
     },
     Mutation: {
-        
+
         register: async (_: any, args: GQL.IRegisterOnMutationArguments, { redis, url }) => {
 
             try {
@@ -81,11 +82,25 @@ export const resolvers: ResolverMap = {
                 select: ["id"]
             });
 
+            const usernameFound = await User.findOne({
+                where: { username },
+                select: ["id"]
+            });
+
             if (userAlreadyExists) {
                 return [
                     {
                         path: "email",
                         message: duplicateEmail
+                    }
+                ];
+            }
+
+            if (usernameFound) {
+                return [
+                    {
+                        path: "username",
+                        message: usernameAlreadyExists
                     }
                 ];
             }
@@ -199,6 +214,6 @@ export const resolvers: ResolverMap = {
 
             return null;
         }
-    
+
     }
 };

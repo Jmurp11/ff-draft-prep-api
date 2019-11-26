@@ -37,8 +37,8 @@ export const resolvers: ResolverMap = {
         createPlayer: async (_: any, { firstName, lastName, team, position,
             rank, adp, tier }:
             GQL.ICreatePlayerOnMutationArguments) => {
-            const playerExists = await Team.findOne({
-                where: { nickname },
+            const playerExists = await Player.findOne({
+                where: { firstName, lastName, team, position },
                 select: ["id"]
             });
 

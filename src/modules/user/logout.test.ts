@@ -2,7 +2,7 @@ import { createTypeormConn } from "../../utils/createTypeormConn";
 import { User } from "../../entity/index";
 import { Connection } from "typeorm";
 import { TestClient } from "../../utils/TestClient";
-import { user as userData, shared } from '../../constants/test-constants';
+import { user as userData } from '../../constants/test-constants';
 
 let conn: Connection;
 const email = "bob5@bob.com";
@@ -15,9 +15,7 @@ beforeEach(async () => {
   const user = await User.create({
     email,
     password,
-    description: userData.description,
-    latitude: shared.longitude,
-    longitude: shared.longitude,
+    username: userData.username,
     confirmed: true
   }).save();
   userId = user.id;

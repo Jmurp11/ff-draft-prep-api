@@ -5,6 +5,7 @@ import {
     Team
 } from './../../entity';
 import { getRepository } from "typeorm";
+import { projectionAlreadyExists } from "./errorMessages";
 
 export const resolvers: ResolverMap = {
     Query: {
@@ -87,9 +88,14 @@ export const resolvers: ResolverMap = {
 
                 await projection.save();
 
-                return true;
+                return null;
             } else {
-                return false;
+                return [
+                    {
+                        path: "projection",
+                        message: projectionAlreadyExists
+                    }
+                ];
             }
         }
     }

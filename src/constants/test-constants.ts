@@ -14,6 +14,7 @@ export const teamData = {
     city: 'New York',
     nickname: 'Jets',
     abbreviation: 'NYJ',
+    bye: 2,
     imageUrl: 'http://content.sportslogos.net/logos/7/169/thumbs/364.gif',
     rank: 1,
     passRank: 1,

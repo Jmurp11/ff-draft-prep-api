@@ -2,7 +2,7 @@ import { createTypeormConn } from "../../utils/createTypeormConn";
 import { User } from "../../entity/index";
 import { Connection } from "typeorm";
 import { TestClient } from "../../utils/TestClient";
-import { user as userData, shared } from '../../constants/test-constants';
+import { user as userData } from '../../constants/test-constants';
 import { createForgotPasswordLink } from "../../utils/createForgotPasswordLink";
 import * as Redis from 'ioredis';
 import { forgotPasswordLockError, passwordNotLongEnough, expiredRedisKeyError } from './errorMessages'
@@ -12,16 +12,14 @@ const redis = new Redis();
 let conn: Connection;
 const email = "bob5@bob.com";
 const password = "jlkajoioiqwe";
-
+const username = userData.username;
 let userId: string;
 beforeAll(async () => {
     conn = await createTypeormConn();
     const user = await User.create({
         email,
         password,
-        description: userData.description,
-        latitude: shared.longitude,
-        longitude: shared.longitude,
+        username,
         confirmed: true
     }).save();
     userId = user.id;

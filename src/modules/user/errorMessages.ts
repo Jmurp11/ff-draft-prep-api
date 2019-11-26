@@ -7,3 +7,4 @@ export const confirmEmailError = 'Please confirm your email before logging in.';
 export const forgotPasswordLockError = 'Account is locked!';
 export const expiredRedisKeyError = 'Reset password link has expired';
 export const userDoesNotExist = 'User does not exist!';
+export const usernameAlreadyExists = 'Username already exists!';

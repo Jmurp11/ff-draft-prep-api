@@ -2,8 +2,7 @@ import { Connection } from 'typeorm';
 import { createTypeormConn } from '../../utils/createTypeOrmConn';
 import { User } from '../../entity/index';
 import {
-    user as userData,
-    shared
+    user as userData
 } from '../../constants/test-constants';
 import { TestClient } from '../../utils/TestClient';
 
@@ -11,15 +10,14 @@ let userId: string;
 let conn: Connection;
 const email = userData.email;
 const password = userData.password;
+const username = userData.username;
 
 beforeEach(async () => {
     conn = await createTypeormConn();
     const user = await User.create({
         email,
         password,
-        description: userData.description,
-        latitude: shared.longitude,
-        longitude: shared.longitude,
+        username,
         confirmed: true
     }).save();
     userId = user.id;

@@ -52,7 +52,7 @@
       "request-promise": "~4.2.4",
       "tslint": "~5.18.0",
       "tslint-config-prettier": "~1.18.0",
-      "typeorm": "0.2.18",
+      "typeorm": "0.2.25",
       "uuid": "~3.3.3",
       "yup": "~0.27.0"
    },
